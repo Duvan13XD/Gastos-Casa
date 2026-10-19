@@ -9,7 +9,15 @@ let unsubscribe=null, loggedIn=false, queued=Promise.resolve(), baseline=null, p
 const clone=x=>JSON.parse(JSON.stringify(x));
 const initial=()=>({periods:[{id:'p1',name:'octubre de 2026',closed:false}],active:'p1',expenses:[]});
 const loginForm=document.getElementById('loginForm');
-loginForm.onsubmit=async e=>{e.preventDefault();document.getElementById('authError').textContent='';const b=document.getElementById('loginBtn');b.disabled=true;try{await signInWithEmailAndPassword(auth,document.getElementById('loginEmail').value.trim(),document.getElementById('loginPassword').value)}catch(e){document.getElementById('authError').textContent='No se pudo ingresar. Revisa el correo, la contraseña y los permisos.'}finally{b.disabled=false}};
+loginForm.onsubmit=async e=>{e.preventDefault();document.getElementById('authError').textContent='';const b=document.getElementById('loginBtn');b.disabled=true;try{await signInWithEmailAndPassword(auth,document.getElementById('loginEmail').value.trim(),document.getElementById('loginPassword').value)}
+catch(e){
+  console.error("Error de Firebase:", e);
+  document.getElementById('authError').textContent =
+    "Error: " + (e.code || e.message);
+}finally{
+  b.disabled = false;
+}};
+
 document.getElementById('signOutBtn').onclick=()=>signOut(auth);
 const syncText=(message,offline=false)=>{const n=document.getElementById('syncLabel');n.textContent=message;n.classList.toggle('offline',offline)};
 onAuthStateChanged(auth,user=>{if(user){window.__startShared()}else{window.__stopShared()}});
