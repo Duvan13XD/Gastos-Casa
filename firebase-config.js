@@ -1,4 +1,3 @@
-
 export const firebaseConfig = {
   apiKey: "AIzaSyADr2t9PncQQ61juwa9xJ3wodE0Ms1g1vk",
   authDomain: "gastos-casa-bc96d.firebaseapp.com",
